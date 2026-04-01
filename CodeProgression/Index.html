@@ -1,0 +1,98 @@
+```html
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>コード進行トレーニング</title>
+<style>
+  body { font-family: sans-serif; padding: 20px; }
+  button { margin: 8px; padding: 10px 20px; font-size: 16px; }
+  #answer { font-size: 20px; margin-top: 20px; color: #333; }
+</style>
+</head>
+<body>
+
+<h1>コード進行トレーニング</h1>
+
+<h2>① モード選択</h2>
+<button id="majorBtn">メジャー</button>
+<button id="minorBtn">マイナー</button>
+
+<h2>② クイズ</h2>
+<button id="quizBtn">クイズを出す</button>
+<button id="answerBtn">答えを見る</button>
+
+<div id="answer"></div>
+
+<script>
+// ▼ メジャー用（Majorフォルダ）
+const majorProgressions = [
+  { name: "1625 (王道)", file: "Major/001.wav" },
+  { name: "4536 (小室)", file: "Major/002.wav" },
+  { name: "1563 (カノン前半)", file: "Major/003.wav" },
+  { name: "4145 (カノン後半)", file: "Major/004.wav" },
+  { name: "6415", file: "Major/005.wav" },
+  { name: "1564", file: "Major/006.wav" },
+  { name: "6415", file: "Major/007.wav" },
+  { name: "4536", file: "Major/008.wav" }
+];
+
+// ▼ マイナー用（Minorフォルダ）
+const minorProgressions = [
+  { name: "6415 (王道)", file: "Minor/101.wav" },
+  { name: "6545", file: "Minor/102.wav" },
+  { name: "6736", file: "Minor/103.wav" },
+  { name: "6156", file: "Minor/104.wav" },
+  { name: "6451", file: "Minor/105.wav" },
+  { name: "6456", file: "Minor/106.wav" },
+  { name: "6515", file: "Minor/107.wav" },
+  { name: "6514", file: "Minor/108.wav" }
+];
+
+let currentMode = null; // "major" or "minor"
+let currentQuizIndex = null;
+
+// ▼ モード選択
+document.getElementById("majorBtn").onclick = () => {
+  currentMode = "major";
+  document.getElementById("answer").textContent = "メジャーモード選択";
+};
+
+document.getElementById("minorBtn").onclick = () => {
+  currentMode = "minor";
+  document.getElementById("answer").textContent = "マイナーモード選択";
+};
+
+// ▼ クイズ
+document.getElementById("quizBtn").onclick = () => {
+  if (!currentMode) {
+    document.getElementById("answer").textContent = "先にメジャーかマイナーを選んでください。";
+    return;
+  }
+
+  const list = currentMode === "major" ? majorProgressions : minorProgressions;
+
+  currentQuizIndex = Math.floor(Math.random() * list.length);
+
+  new Audio(list[currentQuizIndex].file).play();
+
+  document.getElementById("answer").textContent = "（再生中… 答えを見るを押してください）";
+};
+
+// ▼ 答え表示
+document.getElementById("answerBtn").onclick = () => {
+  if (currentQuizIndex === null) {
+    document.getElementById("answer").textContent = "まずクイズを出してください。";
+    return;
+  }
+
+  const list = currentMode === "major" ? majorProgressions : minorProgressions;
+
+  document.getElementById("answer").textContent =
+    "答え：" + list[currentQuizIndex].name;
+};
+</script>
+
+</body>
+</html>
+```
